@@ -6,25 +6,25 @@ MovieCompose is a sample Android app built with Jetpack Compose that allows you 
 
 <div style="display: flex;">
   <div style="flex: 50%; padding: 8px;">
-    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020848.png" width="100%" alt="Screenshot 1">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020848.png" width="50%" height="50%" alt="Screenshot 1">
   </div>
   <div style="flex: 50%; padding: 8px;">
-    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020856.png" width="100%" alt="Screenshot 2">
-  </div>
-</div>
-
-<div style="display: flex;">
-  <div style="flex: 50%; padding: 8px;">
-    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020906.png" width="100%" alt="Screenshot 3">
-  </div>
-  <div style="flex: 50%; padding: 8px;">
-    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020918.png" width="100%" alt="Screenshot 4">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020856.png" width="50%" height="50%" alt="Screenshot 2">
   </div>
 </div>
 
 <div style="display: flex;">
   <div style="flex: 50%; padding: 8px;">
-    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020936.png" width="100%" alt="Screenshot 5">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020906.png" width="50%" height="50%" alt="Screenshot 3">
+  </div>
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020918.png" width="50%" height="50%" alt="Screenshot 4">
+  </div>
+</div>
+
+<div style="display: flex;">
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020936.png" width="50%" height="50%" alt="Screenshot 5">
   </div>
 </div>
 
