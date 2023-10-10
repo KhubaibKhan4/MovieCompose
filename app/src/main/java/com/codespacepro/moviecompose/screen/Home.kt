@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.navigation.NavHostController
 import com.codespacepro.moviecompose.components.PersonProfileList
 import com.codespacepro.moviecompose.components.PopularMoviesList
 import com.codespacepro.moviecompose.components.TopAppBar
@@ -61,7 +62,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavHostController) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val repository = Repository()
@@ -204,14 +205,19 @@ fun HomeScreen() {
                                 .fillMaxSize()
                         ) {
                             Spacer(modifier = Modifier.height(10.dp))
-                            data?.results?.let {result ->
+                            data?.results?.let { result ->
                                 PopularMoviesList(result = result)
                             }
                         }
                         Spacer(modifier = Modifier.height(14.dp))
 
                         data?.results?.let { result ->
-                            TopSlider(result = result, context = context, scope)
+                            TopSlider(
+                                result = result,
+                                context = context,
+                                scope,
+                                navController = navController
+                            )
                         }
                         Spacer(modifier = Modifier.height(14.dp))
                         Column(
@@ -278,7 +284,8 @@ fun HomeScreen() {
                             PersonProfileList(
                                 person = it1,
                                 topBarText = "Top Actors",
-                                context = context
+                                context = context,
+                                navController
                             )
                         }
                         Spacer(modifier = Modifier.height(80.dp))

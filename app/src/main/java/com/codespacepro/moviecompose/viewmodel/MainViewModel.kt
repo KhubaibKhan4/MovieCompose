@@ -27,6 +27,8 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
     private val _myTrendingTVWeeklyResponse: MutableLiveData<Response<Movies>> = MutableLiveData()
     private val _myTrendingMovieResponse: MutableLiveData<Response<Movies>> = MutableLiveData()
     private val _myTopRatedTv: MutableLiveData<Response<Tv>> = MutableLiveData()
+    private val _mySimilar: MutableLiveData<Response<Movies>> = MutableLiveData()
+    private val _myRecommendations: MutableLiveData<Response<Movies>> = MutableLiveData()
 
     val myResponse: LiveData<Response<Movies>> = _myResponse
     val myTopRatedResponse: LiveData<Response<Movies>> = _myTopRatedResponse
@@ -39,6 +41,8 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
     val myTrendingTVWeeklyResponse: LiveData<Response<Movies>> = _myTrendingTVWeeklyResponse
     val myTrendingMovieResponse: LiveData<Response<Movies>> = _myTrendingMovieResponse
     val myTopRatedTv: LiveData<Response<Tv>> = _myTopRatedTv
+    val mySimilar: LiveData<Response<Movies>> = _mySimilar
+    val myRecommendations: LiveData<Response<Movies>> = _myRecommendations
 
 
     fun getPopular(lang: String, page: Int) {
@@ -165,8 +169,32 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
     fun getTvTopRatedSeries(lang: String, page: Int) {
         viewModelScope.launch {
             try {
-                val response = repository.getTvTopRatedSeries(lang,page)
+                val response = repository.getTvTopRatedSeries(lang, page)
                 _myTopRatedTv.value = response
+            } catch (e: Exception) {
+                Log.d("Home", "${e.printStackTrace()}")
+            }
+
+        }
+    }
+
+    fun getSimilar(lang: String, page: Int, movieId: Int) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getSimilar(lang, page, movieId = movieId)
+                _mySimilar.value = response
+            } catch (e: Exception) {
+                Log.d("Home", "${e.printStackTrace()}")
+            }
+
+        }
+    }
+
+    fun getRecommendation(lang: String, page: Int, movieId: Int) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getRecommendation(lang, page, movieId = movieId)
+                _myRecommendations.value = response
             } catch (e: Exception) {
                 Log.d("Home", "${e.printStackTrace()}")
             }

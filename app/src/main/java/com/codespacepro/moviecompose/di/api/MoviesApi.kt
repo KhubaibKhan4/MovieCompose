@@ -164,8 +164,15 @@ interface MoviesApi {
 
     @GET("3/movie/{movie_id}/recommendations")
     suspend fun getRecommendation(
-        @Path("movie_id") movie_id: String,
+        @Path("movie_id") movie_id: Int,
         @Query("language") lang: String,
-        @Query("page") page: String,
+        @Query("page") page: Int,
+    ): Response<Movies>
+
+    @GET("3/movie/{movie_id}/similar")
+    suspend fun getSimilar(
+        @Path("movie_id") movie_id: Int,
+        @Query("language") lang: String,
+        @Query("page") page: Int,
     ): Response<Movies>
 }

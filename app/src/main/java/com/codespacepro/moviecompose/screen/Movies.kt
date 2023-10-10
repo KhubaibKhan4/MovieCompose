@@ -33,16 +33,15 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.navigation.NavHostController
 import com.codespacepro.moviecompose.components.MovieList
-import com.codespacepro.moviecompose.components.TrendingList
-import com.codespacepro.moviecompose.components.TrendingMovieList
 import com.codespacepro.moviecompose.model.Movies
 import com.codespacepro.moviecompose.repository.Repository
 import com.codespacepro.moviecompose.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Movies() {
+fun Movies(navController: NavHostController) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()

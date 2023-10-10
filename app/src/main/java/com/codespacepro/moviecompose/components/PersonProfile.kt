@@ -1,6 +1,8 @@
 package com.codespacepro.moviecompose.components
 
 import android.content.Context
+import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,18 +22,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.codespacepro.moviecompose.model.person.ResultX
+import com.codespacepro.moviecompose.navigation.navgraph.Screen
 
 @Composable
-fun PersonProfileList(person: List<ResultX>,topBarText: String ,context: Context) {
+fun PersonProfileList(person: List<ResultX>, topBarText: String, context: Context, navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,15 +58,27 @@ fun PersonProfileList(person: List<ResultX>,topBarText: String ,context: Context
     }
     LazyRow {
         items(person) { person ->
-            PersonProfileItem(result = person, context = context)
+            PersonProfileItem(result = person, context = context, navController = navController)
         }
     }
 }
 
 @Composable
-fun PersonProfileItem(result: ResultX, context: Context) {
+fun PersonProfileItem(result: ResultX, context: Context, navController: NavHostController) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate(
+                    Screen.ActorDetail.passData(
+                        Uri.encode(result.profile_path),
+                        Uri.encode(result.name),
+                        Uri.encode(result.known_for.toList().toString()),
+                        Uri.encode(result.gender.toString()),
+                        Uri.encode(result.popularity.toString())
+                        )
+                )
+            },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

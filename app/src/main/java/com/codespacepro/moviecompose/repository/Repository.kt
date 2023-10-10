@@ -52,4 +52,11 @@ class Repository {
         return RetrofitInstance.moviesApi.getTvTopRatedSeries(lang = lang, page)
     }
 
+    suspend fun getSimilar(lang: String, page: Int, movieId: Int): Response<Movies> {
+        return RetrofitInstance.moviesApi.getSimilar(lang = lang, movie_id = movieId, page = page)
+    }
+    suspend fun getRecommendation(lang: String, page: Int, movieId: Int): Response<Movies> {
+        return RetrofitInstance.moviesApi.getRecommendation(lang = lang, movie_id = movieId, page = page)
+    }
+
 }

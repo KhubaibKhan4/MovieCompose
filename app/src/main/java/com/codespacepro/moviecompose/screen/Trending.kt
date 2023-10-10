@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.navigation.NavHostController
 import com.codespacepro.moviecompose.components.PersonProfileList
 import com.codespacepro.moviecompose.components.TrendingTVList
 import com.codespacepro.moviecompose.components.TrendingWeeklyList
@@ -45,7 +46,7 @@ import com.codespacepro.moviecompose.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Trending() {
+fun Trending(navController: NavHostController) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
@@ -182,7 +183,8 @@ fun Trending() {
                             PersonProfileList(
                                 person = it1,
                                 topBarText = "Trending Actors",
-                                context = context
+                                context = context,
+                                navController
                             )
                         }
                         Spacer(modifier = Modifier.height(16.dp))

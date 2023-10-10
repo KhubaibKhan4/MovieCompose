@@ -32,15 +32,15 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.navigation.NavHostController
 import com.codespacepro.moviecompose.components.TvSeriesMovie
-import com.codespacepro.moviecompose.model.Movies
 import com.codespacepro.moviecompose.model.tv.Tv
 import com.codespacepro.moviecompose.repository.Repository
 import com.codespacepro.moviecompose.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TV() {
+fun TV(navController: NavHostController) {
 
     val repository = Repository()
     val mainViewModel = MainViewModel(repository = repository)

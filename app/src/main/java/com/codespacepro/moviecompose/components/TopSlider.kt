@@ -1,8 +1,10 @@
 package com.codespacepro.moviecompose.components
 
 import android.content.Context
+import android.net.Uri
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,25 +30,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.codespacepro.moviecompose.R
 import com.codespacepro.moviecompose.model.Result
+import com.codespacepro.moviecompose.navigation.navgraph.Screen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TopSlider(result: List<Result>, context: Context, scope: CoroutineScope) {
+fun TopSlider(
+    result: List<Result>,
+    context: Context,
+    scope: CoroutineScope,
+    navController: NavHostController
+) {
 
     val state =
         rememberPagerState(initialPage = 0, initialPageOffsetFraction = 0f) {
@@ -63,7 +69,7 @@ fun TopSlider(result: List<Result>, context: Context, scope: CoroutineScope) {
                 mutableIntStateOf(page)
             }
             val currentItem = result[pageItem]
-            TopSliderItem(result = currentItem, context = context, state)
+            TopSliderItem(result = currentItem, context = context, state, navController)
         }
         DotsIndicator(
             pagerState = state,
@@ -93,7 +99,12 @@ fun TopSlider(result: List<Result>, context: Context, scope: CoroutineScope) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TopSliderItem(result: Result, context: Context, pagerState: PagerState) {
+fun TopSliderItem(
+    result: Result,
+    context: Context,
+    pagerState: PagerState,
+    navController: NavHostController
+) {
 
     val pageOffset = pagerState.currentPageOffsetFraction
 
@@ -111,6 +122,18 @@ fun TopSliderItem(result: Result, context: Context, pagerState: PagerState) {
             .height(154.dp)
             .offset(x = offsetX)
             .scale(scaleX = scaleFactor, scaleY = scaleFactor)
+            .clickable {
+                navController.navigate(
+                    Screen.MovieDetail.passData(
+                        Uri.encode(result.poster_path),
+                        Uri.encode(result.original_title),
+                        Uri.encode(result.overview),
+                        Uri.encode(result.release_date),
+                        Uri.encode(result.vote_average.toString()),
+                        Uri.encode(result.id.toString()),
+                    )
+                )
+            }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context = context)
