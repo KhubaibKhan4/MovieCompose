@@ -26,6 +26,14 @@ MovieCompose is a sample Android app built with Jetpack Compose that allows you 
   <div style="flex: 50%; padding: 8px;">
     <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231010_020936.png" width="50%" height="50%" alt="Screenshot 5">
   </div>
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231011_030738.png" width="50%" height="50%" alt="Screenshot 4">
+  </div>
+</div>
+<div style="display: flex;">
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231011_030750.png" width="50%" height="50%" alt="Screenshot 5">
+  </div>
 </div>
 
 ## License
