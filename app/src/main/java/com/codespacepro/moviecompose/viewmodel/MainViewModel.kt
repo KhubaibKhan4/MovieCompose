@@ -23,12 +23,13 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
         MutableLiveData()
     private val _myTrendingPersonTodayResponse: MutableLiveData<Response<Person>> =
         MutableLiveData()
-    private val _myTrendingTVTodayResponse: MutableLiveData<Response<Movies>> = MutableLiveData()
-    private val _myTrendingTVWeeklyResponse: MutableLiveData<Response<Movies>> = MutableLiveData()
+    private val _myTrendingTVTodayResponse: MutableLiveData<Response<Tv>> = MutableLiveData()
+    private val _myTrendingTVWeeklyResponse: MutableLiveData<Response<Tv>> = MutableLiveData()
     private val _myTrendingMovieResponse: MutableLiveData<Response<Movies>> = MutableLiveData()
     private val _myTopRatedTv: MutableLiveData<Response<Tv>> = MutableLiveData()
     private val _mySimilar: MutableLiveData<Response<Movies>> = MutableLiveData()
     private val _myRecommendations: MutableLiveData<Response<Movies>> = MutableLiveData()
+    private val _mySearchMovie: MutableLiveData<Response<Movies>> = MutableLiveData()
 
     val myResponse: LiveData<Response<Movies>> = _myResponse
     val myTopRatedResponse: LiveData<Response<Movies>> = _myTopRatedResponse
@@ -37,13 +38,31 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
     val myTrendingWeeklyResponse: LiveData<Response<Movies>> = _myTrendingWeeklyResponse
     val myTrendingPersonWeeklyResponse: LiveData<Response<Person>> = _myTrendingPersonWeeklyResponse
     val myTrendingPersonTodayResponse: LiveData<Response<Person>> = _myTrendingPersonTodayResponse
-    val myTrendingTVTodayResponse: LiveData<Response<Movies>> = _myTrendingTVTodayResponse
-    val myTrendingTVWeeklyResponse: LiveData<Response<Movies>> = _myTrendingTVWeeklyResponse
+    val myTrendingTVTodayResponse: LiveData<Response<Tv>> = _myTrendingTVTodayResponse
+    val myTrendingTVWeeklyResponse: LiveData<Response<Tv>> = _myTrendingTVWeeklyResponse
     val myTrendingMovieResponse: LiveData<Response<Movies>> = _myTrendingMovieResponse
     val myTopRatedTv: LiveData<Response<Tv>> = _myTopRatedTv
     val mySimilar: LiveData<Response<Movies>> = _mySimilar
     val myRecommendations: LiveData<Response<Movies>> = _myRecommendations
+    val mySearchedMovie: LiveData<Response<Movies>> = _mySearchMovie
 
+
+    fun getSearchMovie(
+        query: String,
+        include_adult: Boolean,
+        lang: String,
+        page: Int,
+    ) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getSearchMovie(query,include_adult,lang, page)
+                _mySearchMovie.value = response
+            } catch (e: Exception) {
+                Log.d("Home", "${e.printStackTrace()}")
+            }
+
+        }
+    }
 
     fun getPopular(lang: String, page: Int) {
         viewModelScope.launch {

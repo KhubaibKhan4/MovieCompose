@@ -1,5 +1,6 @@
 package com.codespacepro.moviecompose.components
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,26 +21,38 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.codespacepro.moviecompose.model.Result
 import com.codespacepro.moviecompose.model.tv.ResultTv
+import com.codespacepro.moviecompose.navigation.navgraph.Screen
 
 @Composable
-fun TvSeriesMovie(result: List<ResultTv>) {
+fun TvSeriesMovie(result: List<ResultTv>, navController: NavHostController) {
     LazyColumn {
         items(result) { result ->
-            TvSeriesItem(result = result)
+            TvSeriesItem(result = result, navController)
         }
     }
 }
 
 @Composable
-fun TvSeriesItem(result: ResultTv) {
+fun TvSeriesItem(result: ResultTv, navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable { /* Handle item click */ }
+            .clickable {
+                navController.navigate(
+                    Screen.MovieDetail.passData(
+                        Uri.encode(result.poster_path),
+                        Uri.encode(result.original_name ?: "No Title Found").toString(),
+                        Uri.encode(result.overview).toString(),
+                        Uri.encode(result.first_air_date ?: "N/A").toString(),
+                        Uri.encode(result.vote_average.toString()),
+                        Uri.encode("575264")
+                    )
+                )
+            }
             .background(MaterialTheme.colorScheme.background)
             .border(1.dp, Color.Gray, shape = MaterialTheme.shapes.large)
     ) {

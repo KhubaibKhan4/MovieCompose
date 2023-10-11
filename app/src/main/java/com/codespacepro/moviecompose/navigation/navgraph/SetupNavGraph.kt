@@ -72,12 +72,26 @@ fun SetupNavGraph(navController: NavHostController) {
                     type = NavType.StringType
                 },
                 navArgument("known_for_department") {
-                    type = NavType.StringArrayType
+                    type = NavType.StringType
                 },
                 navArgument("gender") {
                     type = NavType.StringType
                 },
                 navArgument("popularity") {
+                    type = NavType.StringType
+                },
+                navArgument("know_for") {
+                    type = NavType.StringType
+                }, navArgument("backdrop_path") {
+                    type = NavType.StringType
+                }
+                , navArgument("overview") {
+                    type = NavType.StringType
+                }
+                , navArgument("release_date") {
+                    type = NavType.StringType
+                }
+                , navArgument("vote_count") {
                     type = NavType.StringType
                 }
             )
@@ -87,8 +101,25 @@ fun SetupNavGraph(navController: NavHostController) {
             val known_for_department = it.arguments?.getString("known_for_department")
             val gender = it.arguments?.getString("gender")
             val popularity = it.arguments?.getString("popularity")
+            val know_for = it.arguments?.getString("know_for")
+            val backdrop_path = it.arguments?.getString("backdrop_path")
+            val overview = it.arguments?.getString("overview")
+            val release_date = it.arguments?.getString("release_date")
+            val vote_count = it.arguments?.getString("vote_count")
 
-            ActorDetail(navController, profile_path, name, known_for_department, gender, popularity)
+            ActorDetail(
+                navController,
+                profile_path,
+                name,
+                known_for_department,
+                gender,
+                popularity,
+                know_for,
+                backdrop_path,
+                overview,
+                release_date,
+                vote_count
+            )
         }
     }
 

@@ -1,6 +1,8 @@
 package com.codespacepro.moviecompose.components
 
+import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,9 +29,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.codespacepro.moviecompose.model.Result
+import com.codespacepro.moviecompose.model.tv.ResultTv
+import com.codespacepro.moviecompose.navigation.navgraph.Screen
 
 @Composable
 fun TrendingTV() {
@@ -37,7 +42,7 @@ fun TrendingTV() {
 }
 
 @Composable
-fun TrendingTVList(result: List<Result>, topBarText: String) {
+fun TrendingTVList(result: List<ResultTv>, topBarText: String, navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -62,18 +67,30 @@ fun TrendingTVList(result: List<Result>, topBarText: String) {
     }
     LazyRow {
         items(result) { result ->
-            TrendingTVItem(result = result)
+            TrendingTVItem(result = result, navController)
         }
     }
 }
 
 @Composable
-fun TrendingTVItem(result: Result) {
+fun TrendingTVItem(result: ResultTv, navController: NavHostController) {
     val context = LocalContext.current
 
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate(
+                    Screen.MovieDetail.passData(
+                        Uri.encode(result.poster_path),
+                        Uri.encode(result.original_name ?: "No Title Found").toString(),
+                        Uri.encode(result.overview).toString(),
+                        Uri.encode(result.first_air_date ?: "N/A").toString(),
+                        Uri.encode(result.vote_average.toString()),
+                        Uri.encode("575264")
+                    )
+                )
+            },
     ) {
         Box(
             modifier = Modifier
@@ -99,7 +116,7 @@ fun TrendingTVItem(result: Result) {
                     .align(Alignment.BottomCenter)
             ) {
                 Text(
-                    text = "${result.title}",
+                    text = "${result.original_name}",
                     fontSize = 14.sp,
                     color = Color.White,
                     letterSpacing = 0.12.sp,

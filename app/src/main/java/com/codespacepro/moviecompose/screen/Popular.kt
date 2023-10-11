@@ -127,7 +127,8 @@ fun Popular(navController: NavHostController) {
                         popularMovie?.results?.let { it1 ->
                             TrendingList(
                                 result = it1,
-                                context = context
+                                context = context,
+                                navController
                             )
                         }
                     }

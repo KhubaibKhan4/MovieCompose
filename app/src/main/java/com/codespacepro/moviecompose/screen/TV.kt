@@ -113,7 +113,7 @@ fun TV(navController: NavHostController) {
                         verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        trendingToday?.results?.let { it1 -> TvSeriesMovie(result = it1) }
+                        trendingToday?.results?.let { it1 -> TvSeriesMovie(result = it1, navController) }
                         Spacer(modifier = Modifier.height(69.dp))
                     }
                 }

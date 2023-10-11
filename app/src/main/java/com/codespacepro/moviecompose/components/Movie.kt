@@ -1,5 +1,6 @@
 package com.codespacepro.moviecompose.components
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,21 +23,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.codespacepro.moviecompose.model.Result
+import com.codespacepro.moviecompose.navigation.navgraph.Screen
 
 @Composable
-fun MovieList(result: List<Result>) {
+fun MovieList(result: List<Result>, navController: NavHostController) {
     LazyColumn {
         items(result) {
-            MovieItem(movie = it)
+            MovieItem(movie = it, navController)
         }
     }
 }
 
 @Composable
-fun MovieItem(movie: Result) {
+fun MovieItem(movie: Result, navController: NavHostController) {
     val context = LocalContext.current
 
     Card(
@@ -54,6 +57,18 @@ fun MovieItem(movie: Result) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
+                .clickable {
+                    navController.navigate(
+                        Screen.MovieDetail.passData(
+                            Uri.encode(movie.poster_path),
+                            Uri.encode(movie.original_title),
+                            Uri.encode(movie.overview),
+                            Uri.encode(movie.release_date),
+                            Uri.encode(movie.vote_average.toString()),
+                            Uri.encode(movie.id.toString())
+                        )
+                    )
+                }
         ) {
             Text(
                 text = movie.title,

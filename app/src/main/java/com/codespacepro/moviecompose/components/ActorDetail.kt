@@ -1,17 +1,15 @@
 package com.codespacepro.moviecompose.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -20,6 +18,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,12 +26,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -49,7 +48,12 @@ fun ActorDetail(
     name: String?,
     known_for_department: String?,
     gender: String?,
-    popularity: String?
+    popularity: String?,
+    know_for: String?,
+    backdrop_path: String?,
+    overview: String?,
+    release_date: String?,
+    vote_count: String?
 ) {
     var isLiked by remember {
         mutableStateOf(false)
@@ -110,7 +114,11 @@ fun ActorDetail(
                     known_for_department = known_for_department,
                     gender = gender,
                     popularity = popularity,
-                    listOf(known_for_department)
+                    know_for,
+                    backdrop_path,
+                    overview,
+                    release_date,
+                    vote_count
                 )
             }
 
@@ -124,7 +132,11 @@ fun ActorDetailItem(
     known_for_department: String?,
     gender: String?,
     popularity: String?,
-    knownFor: List<String?> // List of known movies/TV shows
+    know_for: String?,
+    backdrop_path: String?,
+    overview: String?,
+    release_date: String?,
+    vote_count: String?,
 ) {
     val context = LocalContext.current
 
@@ -133,103 +145,133 @@ fun ActorDetailItem(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Actor's profile image
         Box(
             modifier = Modifier
-                .size(200.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .border(2.dp, Color.Black, RoundedCornerShape(12.dp))
+                .fillMaxWidth()
+                .height(200.dp)
         ) {
-            if (profile_path?.isNotEmpty() == true) {
-                AsyncImage(
-                    model = ImageRequest.Builder(context = context)
-                        .data("https://image.tmdb.org/t/p/w500${profile_path}")
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .height(75.dp)
-                        .clip(RoundedCornerShape(24.dp)),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                // Placeholder image or text if the profile image is not available
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                        .background(color = Color.Gray),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(
-                        text = name ?: "Unknown",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                }
-            }
+            // Actor Profile Image
+
+            AsyncImage(
+                model = ImageRequest.Builder(context = context)
+                    .data("https://image.tmdb.org/t/p/w500${profile_path}")
+                    .crossfade(enable = true)
+                    .build(),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(shape = RoundedCornerShape(12.dp)),
+                contentScale = ContentScale.Crop,
+            )
+
+
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Actor's name
+        // Actor Name
         Text(
-            text = name ?: "Unknown",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
+            text = "Original Name: $name",
+            style = TextStyle(
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+            )
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Actor's known for department
+        // Actor Gender
         Text(
-            text = "Department: ${known_for_department ?: "N/A"}",
-            fontSize = 16.sp,
-            color = Color.Gray
+            text = "Gender: ${if (gender!!.toInt() == 2) "Male" else "Female"}",
+            style = TextStyle(
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = MaterialTheme.typography.titleSmall.fontSize,
+            )
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-        // Actor's gender
+        // Actor Known For
         Text(
-            text = "Gender: ${gender ?: "N/A"}",
-            fontSize = 16.sp,
-            color = Color.Gray
+            text = "Known For: ${known_for_department}",
+            style = TextStyle(
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = MaterialTheme.typography.titleSmall.fontSize,
+            )
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
-        // Actor's popularity
-        Text(
-            text = "Popularity: ${popularity ?: "N/A"}",
-            fontSize = 16.sp,
-            color = Color.Gray
+        AsyncImage(
+            model = ImageRequest.Builder(context = context)
+                .data("https://image.tmdb.org/t/p/w500${backdrop_path}")
+                .crossfade(enable = true)
+                .build(),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(shape = RoundedCornerShape(12.dp)),
+            contentScale = ContentScale.Crop,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Actor's known for movies/TV shows
+        Spacer(modifier = Modifier.height(8.dp))
+// Actor Popularity
         Text(
-            text = "Known For:",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
+            text = "Movie Name: ${know_for}",
+            style = TextStyle(
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+            )
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        // Actor Popularity
+        Text(
+            text = "Popularity: ${popularity}",
+            style = TextStyle(
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = MaterialTheme.typography.bodySmall.fontSize,
+            )
         )
 
-        // List of known movies/TV shows
-        Column {
-            knownFor.forEach { knownForItem ->
-                if (knownForItem != null) {
-                    Text(
-                        text = knownForItem,
-                        fontSize = 16.sp,
-                        color = Color.Black,
-                        modifier = Modifier.padding(8.dp)
-                    )
-                }
-            }
-        }
+
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Additional Details
+        Text(
+            text = "Overview: $overview",
+            style = TextStyle(
+                color = Color.White,
+                fontWeight = FontWeight.Normal,
+                fontSize = MaterialTheme.typography.bodySmall.fontSize,
+            )
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Release Date: $release_date",
+            style = TextStyle(
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = MaterialTheme.typography. bodyMedium.fontSize,
+            )
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "Vote Count: $vote_count",
+            style = TextStyle(
+                color = Color.White,
+                fontWeight = FontWeight.Medium,
+                fontSize = MaterialTheme.typography.bodySmall.fontSize,
+            )
+        )
+        Spacer(modifier = Modifier.padding(bottom = 72.dp))
+
     }
 }
 

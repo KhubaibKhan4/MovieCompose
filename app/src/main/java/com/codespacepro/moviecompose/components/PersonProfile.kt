@@ -33,7 +33,12 @@ import com.codespacepro.moviecompose.model.person.ResultX
 import com.codespacepro.moviecompose.navigation.navgraph.Screen
 
 @Composable
-fun PersonProfileList(person: List<ResultX>, topBarText: String, context: Context, navController: NavHostController) {
+fun PersonProfileList(
+    person: List<ResultX>,
+    topBarText: String,
+    context: Context,
+    navController: NavHostController
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -73,10 +78,16 @@ fun PersonProfileItem(result: ResultX, context: Context, navController: NavHostC
                     Screen.ActorDetail.passData(
                         Uri.encode(result.profile_path),
                         Uri.encode(result.name),
-                        Uri.encode(result.known_for.toList().toString()),
+                        Uri.encode(result.known_for_department),
                         Uri.encode(result.gender.toString()),
-                        Uri.encode(result.popularity.toString())
-                        )
+                        Uri.encode(result.popularity.toString()),
+                        Uri.encode(result.known_for[0].title),
+                        Uri.encode(result.known_for[0].backdrop_path),
+                        Uri.encode(result.known_for[0].overview),
+                        Uri.encode(result.known_for[0].release_date),
+                        Uri.encode(result.known_for[0].vote_count.toString()),
+                    )
+
                 )
             },
         verticalArrangement = Arrangement.Center,

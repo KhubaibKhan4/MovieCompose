@@ -36,11 +36,11 @@ class Repository {
         return RetrofitInstance.moviesApi.getTrendingPersonWeek(lang = lang)
     }
 
-    suspend fun getTrendingTVWeekly(lang: String): Response<Movies> {
+    suspend fun getTrendingTVWeekly(lang: String): Response<Tv> {
         return RetrofitInstance.moviesApi.getTrendingTVWeek(lang = lang)
     }
 
-    suspend fun getTrendingTVToday(lang: String): Response<Movies> {
+    suspend fun getTrendingTVToday(lang: String): Response<Tv> {
         return RetrofitInstance.moviesApi.getTrendingTVWeek(lang = lang)
     }
 
@@ -55,8 +55,27 @@ class Repository {
     suspend fun getSimilar(lang: String, page: Int, movieId: Int): Response<Movies> {
         return RetrofitInstance.moviesApi.getSimilar(lang = lang, movie_id = movieId, page = page)
     }
+
     suspend fun getRecommendation(lang: String, page: Int, movieId: Int): Response<Movies> {
-        return RetrofitInstance.moviesApi.getRecommendation(lang = lang, movie_id = movieId, page = page)
+        return RetrofitInstance.moviesApi.getRecommendation(
+            lang = lang,
+            movie_id = movieId,
+            page = page
+        )
+    }
+
+    suspend fun getSearchMovie(
+        query: String,
+        include_adult: Boolean,
+        lang: String,
+        page: Int,
+    ): Response<Movies> {
+        return RetrofitInstance.moviesApi.getSearchedMovie(
+            query,
+            include_adult,
+            lang = lang,
+            page = page
+        )
     }
 
 }

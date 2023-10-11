@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.codespacepro.moviecompose.model.Result
@@ -37,7 +38,7 @@ fun TrendingWeekly() {
 }
 
 @Composable
-fun TrendingWeeklyList(result: List<Result>) {
+fun TrendingWeeklyList(result: List<Result>, navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -62,7 +63,7 @@ fun TrendingWeeklyList(result: List<Result>) {
     }
     LazyRow {
         items(result) { result ->
-            PopularMoviesItem(result = result)
+            PopularMoviesItem(result = result, navController =navController)
         }
     }
 }

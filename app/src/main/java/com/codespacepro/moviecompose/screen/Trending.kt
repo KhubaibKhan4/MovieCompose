@@ -41,6 +41,7 @@ import com.codespacepro.moviecompose.components.TrendingTVList
 import com.codespacepro.moviecompose.components.TrendingWeeklyList
 import com.codespacepro.moviecompose.model.Movies
 import com.codespacepro.moviecompose.model.person.Person
+import com.codespacepro.moviecompose.model.tv.Tv
 import com.codespacepro.moviecompose.repository.Repository
 import com.codespacepro.moviecompose.viewmodel.MainViewModel
 
@@ -54,14 +55,14 @@ fun Trending(navController: NavHostController) {
     val mainViewModel = MainViewModel(repository = repository)
     val owner: LifecycleOwner = LocalLifecycleOwner.current
     var trendingToday by remember {
-        mutableStateOf<Movies?>(null)
+        mutableStateOf<Tv?>(null)
     }
     var trendingWeekly by remember {
         mutableStateOf<Movies?>(null)
     }
 
     var trendingTvToday by remember {
-        mutableStateOf<Movies?>(null)
+        mutableStateOf<Tv?>(null)
     }
     var popularMovie by remember {
         mutableStateOf<Movies?>(null)
@@ -81,8 +82,8 @@ fun Trending(navController: NavHostController) {
 
     try {
         //Trending Today
-        mainViewModel.getTrendingToday("en-US")
-        mainViewModel.myTrendingTodayResponse.observe(owner, Observer { response ->
+        mainViewModel.getTrendingTVToday("en-US")
+        mainViewModel.myTrendingTVTodayResponse.observe(owner, Observer { response ->
             if (response.isSuccessful) {
                 trendingToday = response.body()
                 Log.d("TrendingScreen", "$trendingToday")
@@ -177,7 +178,7 @@ fun Trending(navController: NavHostController) {
                         verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        trendingWeekly?.results?.let { TrendingWeeklyList(result = it) }
+                        trendingWeekly?.results?.let { TrendingWeeklyList(result = it, navController) }
                         Spacer(modifier = Modifier.height(4.dp))
                         personData?.results?.let { it1 ->
                             PersonProfileList(
@@ -191,7 +192,8 @@ fun Trending(navController: NavHostController) {
                         trendingTvToday?.results?.let { it1 ->
                             TrendingTVList(
                                 result = it1,
-                                topBarText = "TV Series"
+                                topBarText = "TV Series",
+                                navController
                             )
                         }
 //                        Spacer(modifier = Modifier.height(8.dp))

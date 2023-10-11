@@ -125,7 +125,7 @@ fun Movies(navController: NavHostController) {
                     ) {
 
                         upcomingMovies?.results?.let { it1 ->
-                            MovieList(result = it1)
+                            MovieList(result = it1,navController)
                         }
                     }
                 }

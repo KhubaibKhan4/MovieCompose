@@ -60,7 +60,7 @@ interface MoviesApi {
 
 
 
-    @GET("/3/trending/all/day")
+    @GET("3/trending/all/day")
     suspend fun getTrendingToday(
         @Query("language") lang: String
     ): Response<Movies>
@@ -102,13 +102,13 @@ interface MoviesApi {
     @GET("3/trending/tv/day")
     suspend fun getTrendingTVToday(
         @Query("language") lang: String
-    ): Response<Movies>
+    ): Response<Tv>
 
 
-    @GET("3/trending/tv/day")
+    @GET("3/trending/tv/week")
     suspend fun getTrendingTVWeek(
         @Query("language") lang: String
-    ): Response<Movies>
+    ): Response<Tv>
 
 
 
@@ -172,6 +172,14 @@ interface MoviesApi {
     @GET("3/movie/{movie_id}/similar")
     suspend fun getSimilar(
         @Path("movie_id") movie_id: Int,
+        @Query("language") lang: String,
+        @Query("page") page: Int,
+    ): Response<Movies>
+
+    @GET("3/search/movie")
+    suspend fun getSearchedMovie(
+        @Query("query") query: String,
+        @Query("include_adult") include_adult: Boolean,
         @Query("language") lang: String,
         @Query("page") page: Int,
     ): Response<Movies>

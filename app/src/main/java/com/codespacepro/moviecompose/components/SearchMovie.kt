@@ -32,7 +32,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -46,25 +45,16 @@ import com.codespacepro.moviecompose.model.Result
 import com.codespacepro.moviecompose.navigation.navgraph.Screen
 
 @Composable
-fun TrendingToday(result: List<Result>, topBarText: String, navController: NavHostController) {
-    val context = LocalContext.current
-    TrendingList(result = result, context = context,navController)
-
-}
-
-@Composable
-fun TrendingList(result: List<Result>, context: Context, navController: NavHostController) {
-
+fun SearchMovieList(result: List<Result>, context: Context, navController: NavHostController) {
     LazyColumn {
-        items(result) { result ->
-            TrendingItem(result = result, context = context, navController)
+        items(result) {
+            SearchMovieItem(result = it, context, navController)
         }
     }
-
 }
 
 @Composable
-fun TrendingItem(result: Result, context: Context, navController: NavHostController) {
+fun SearchMovieItem(result: Result, context: Context, navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

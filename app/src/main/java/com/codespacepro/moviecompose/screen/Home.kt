@@ -48,6 +48,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavHostController
 import com.codespacepro.moviecompose.components.PersonProfileList
 import com.codespacepro.moviecompose.components.PopularMoviesList
+import com.codespacepro.moviecompose.components.SearchMovieList
 import com.codespacepro.moviecompose.components.TopAppBar
 import com.codespacepro.moviecompose.components.TopSlider
 import com.codespacepro.moviecompose.components.TrendingWeeklyList
@@ -77,6 +78,10 @@ fun HomeScreen(navController: NavHostController) {
 
     var personData by remember {
         mutableStateOf<Person?>(null)
+    }
+
+    var searchData by remember {
+        mutableStateOf<Movies?>(null)
     }
 
     var query by remember {
@@ -118,7 +123,20 @@ fun HomeScreen(navController: NavHostController) {
         mainViewModel.myTrendingPersonWeeklyResponse.observe(owner, Observer { response ->
             if (response.isSuccessful) {
                 personData = response.body()
-                Log.d("HomeScreen", "$trendingWeekly")
+                Log.d("HomeScreen", "$personData")
+                isLoading = false
+            } else {
+                isLoading = false
+                Log.d("HomeScreen", "${response.code()}")
+            }
+        })
+
+
+        mainViewModel.getSearchMovie(query, include_adult = false, "en-US", page = 1)
+        mainViewModel.mySearchedMovie.observe(owner, Observer { response ->
+            if (response.isSuccessful) {
+                searchData = response.body()
+                Log.d("HomeScreen", "$searchData")
                 isLoading = false
             } else {
                 isLoading = false
@@ -148,21 +166,21 @@ fun HomeScreen(navController: NavHostController) {
                 content = {
 
                     val categories = listOf(
-                        "Nature",
-                        "Abstract",
-                        "Landscape",
-                        "Animals",
-                        "Space",
-                        "Cityscape",
-                        "Minimalistic",
-                        "Cars",
-                        "Sports",
+                        "Action",
+                        "Adventure",
+                        "Animation",
+                        "Comedy",
+                        "Crime",
+                        "Documentary",
+                        "Drama",
+                        "Family",
+                        "Fantasy",
+                        "History",
+                        "Horror",
                         "Music",
-                        "Food",
-                        "Art",
-                        "Technology",
-                        "Anime",
-                        "Fantasy"
+                        "Romance",
+                        "Science Fiction",
+                        "Thriller"
                     )
                     var selectedCategory by remember { mutableStateOf(categories.first()) }
                     val scrollState = rememberScrollState()
@@ -170,13 +188,20 @@ fun HomeScreen(navController: NavHostController) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .verticalScroll(scrollState)
-                            .padding(top = it.calculateTopPadding(), start = 8.dp, end = 8.dp)
+                            .padding(top = it.calculateTopPadding(), start = 8.dp, end = 8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         SearchBar(
                             query = query,
                             onQueryChange = { query = it },
-                            onSearch = {},
+                            onSearch = {
+                                mainViewModel.getSearchMovie(
+                                    it,
+                                    include_adult = false,
+                                    "en-US",
+                                    page = 1
+                                )
+                            },
                             active = isActive,
                             onActiveChange = { isActive = !isActive },
                             leadingIcon = {
@@ -200,95 +225,109 @@ fun HomeScreen(navController: NavHostController) {
                                     focusedTextColor = Color.White,
                                     unfocusedTextColor = Color.Black
                                 )
-                            ),
-                            modifier = Modifier
-                                .fillMaxSize()
-                        ) {
+                            )) {
                             Spacer(modifier = Modifier.height(10.dp))
-                            data?.results?.let { result ->
-                                PopularMoviesList(result = result)
+                            searchData?.results?.let { it1 ->
+                                SearchMovieList(
+                                    result = it1,
+                                    context,
+                                    navController = navController
+                                )
                             }
                         }
-                        Spacer(modifier = Modifier.height(14.dp))
-
-                        data?.results?.let { result ->
-                            TopSlider(
-                                result = result,
-                                context = context,
-                                scope,
-                                navController = navController
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(14.dp))
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(start = 14.dp)
+                                .verticalScroll(scrollState)
+                                .padding(start = 8.dp, end = 8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(
-                                text = "Categories",
-                                style = TextStyle(
-                                    fontSize = 16.sp,
-                                    fontFamily = FontFamily.Monospace,
-                                    color = Color(0xFFFFFFFF),
-                                    letterSpacing = 0.12.sp,
-                                ),
-                                fontWeight = FontWeight.ExtraBold,
-                            )
-                            Spacer(modifier = Modifier.height(15.dp))
-                            LazyRow {
-                                item {
-                                    categories.forEach { category ->
-                                        Box(modifier = Modifier.fillMaxWidth()) {
-                                            ElevatedButton(
-                                                onClick = {
-                                                    scope.launch(Dispatchers.IO) {
-                                                        mainViewModel.getPopular("en-US", 1)
-                                                    }
+                            Spacer(modifier = Modifier.height(14.dp))
 
-                                                    Log.d("main", "Categories: $category")
-                                                },
-                                                modifier = Modifier.padding(4.dp),
-                                                elevation = ButtonDefaults.buttonElevation(
-                                                    defaultElevation = 6.dp,
-                                                    pressedElevation = 8.dp,
-                                                    hoveredElevation = 10.dp,
-                                                    focusedElevation = 10.dp
-                                                ),
-                                                shape = RoundedCornerShape(12.dp),
-                                                colors = ButtonDefaults.elevatedButtonColors(
-                                                    containerColor = if (selectedCategory == category) Color(
-                                                        0xFF252836
+                            data?.results?.let { result ->
+                                TopSlider(
+                                    result = result,
+                                    context = context,
+                                    scope,
+                                    navController = navController
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(14.dp))
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 14.dp)
+                            ) {
+                                Text(
+                                    text = "Categories",
+                                    style = TextStyle(
+                                        fontSize = 16.sp,
+                                        fontFamily = FontFamily.Monospace,
+                                        color = Color(0xFFFFFFFF),
+                                        letterSpacing = 0.12.sp,
+                                    ),
+                                    fontWeight = FontWeight.ExtraBold,
+                                )
+                                Spacer(modifier = Modifier.height(15.dp))
+                                LazyRow {
+                                    item {
+                                        categories.forEach { category ->
+                                            Box(modifier = Modifier.fillMaxWidth()) {
+                                                ElevatedButton(
+                                                    onClick = {
+                                                        scope.launch(Dispatchers.IO) {
+                                                            mainViewModel.getPopular("en-US", 1)
+                                                        }
+
+                                                        Log.d("main", "Categories: $category")
+                                                    },
+                                                    modifier = Modifier.padding(4.dp),
+                                                    elevation = ButtonDefaults.buttonElevation(
+                                                        defaultElevation = 6.dp,
+                                                        pressedElevation = 8.dp,
+                                                        hoveredElevation = 10.dp,
+                                                        focusedElevation = 10.dp
+                                                    ),
+                                                    shape = RoundedCornerShape(12.dp),
+                                                    colors = ButtonDefaults.elevatedButtonColors(
+                                                        containerColor = if (selectedCategory == category) Color(
+                                                            0xFF252836
+                                                        )
+                                                        else Color.Black
                                                     )
-                                                    else Color.Black
-                                                )
-                                            ) {
-                                                Text(
-                                                    text = category.uppercase(Locale.ROOT),
-                                                    color = if (selectedCategory == category) MaterialTheme.colorScheme.primary else Color.White
-                                                )
+                                                ) {
+                                                    Text(
+                                                        text = category.uppercase(Locale.ROOT),
+                                                        color = if (selectedCategory == category) MaterialTheme.colorScheme.primary else Color.White
+                                                    )
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
+                            Spacer(modifier = Modifier.height(14.dp))
+                            data?.results?.let { result ->
+                                PopularMoviesList(result = result, navController)
+                            }
+                            Spacer(modifier = Modifier.height(14.dp))
+                            trendingWeekly?.results?.let { it1 ->
+                                TrendingWeeklyList(
+                                    result = it1,
+                                    navController
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(14.dp))
+                            personData?.results?.let { it1 ->
+                                PersonProfileList(
+                                    person = it1,
+                                    topBarText = "Top Actors",
+                                    context = context,
+                                    navController
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(80.dp))
                         }
-                        Spacer(modifier = Modifier.height(14.dp))
-                        data?.results?.let { result ->
-                            PopularMoviesList(result = result)
-                        }
-                        Spacer(modifier = Modifier.height(14.dp))
-                        trendingWeekly?.results?.let { it1 -> TrendingWeeklyList(result = it1) }
-                        Spacer(modifier = Modifier.height(14.dp))
-                        personData?.results?.let { it1 ->
-                            PersonProfileList(
-                                person = it1,
-                                topBarText = "Top Actors",
-                                context = context,
-                                navController
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(80.dp))
                     }
                 })
         }

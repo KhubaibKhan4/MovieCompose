@@ -1,6 +1,8 @@
 package com.codespacepro.moviecompose.components
 
+import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,20 +25,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.codespacepro.moviecompose.R
 import com.codespacepro.moviecompose.model.Result
+import com.codespacepro.moviecompose.navigation.navgraph.Screen
 
 @Composable
-fun PopularMoviesList(result: List<Result>) {
+fun PopularMoviesList(result: List<Result>, navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -69,19 +71,31 @@ fun PopularMoviesList(result: List<Result>) {
     }
     LazyRow {
         items(result) { result ->
-            PopularMoviesItem(result = result)
+            PopularMoviesItem(result = result, navController = navController)
         }
     }
 }
 
 @Composable
-fun PopularMoviesItem(result: Result) {
+fun PopularMoviesItem(result: Result, navController: NavHostController) {
     val context = LocalContext.current
     Column(modifier = Modifier.fillMaxWidth()) {
         Box(
             modifier = Modifier
                 .width(135.dp)
                 .height(231.dp)
+                .clickable {
+                    navController.navigate(
+                        Screen.MovieDetail.passData(
+                            Uri.encode(result.poster_path),
+                            Uri.encode(result.title),
+                            Uri.encode(result.overview),
+                            Uri.encode(result.release_date),
+                            Uri.encode(result.vote_average.toString()),
+                            Uri.encode(result.id.toString()),
+                            )
+                    )
+                }
                 .padding(8.dp)
                 .clip(shape = RoundedCornerShape(12.dp))
         ) {
