@@ -1,7 +1,6 @@
 # MovieCompose
 
-MovieCompose is a sample Android app built with Jetpack Compose that allows you to browse and discover movies. You can view movie details, including title, overview, release date, and average vote.
-
+MovieCompose is a captivating Android application created with Jetpack Compose, embracing the principles of MVVM and Clean Architecture, that takes you on an immersive journey through the world of cinema. Dive into a visually stunning interface to explore and discover your favorite movies. Uncover detailed information about each movie, including its title, overview, release date, and average vote. With the power of [Coil](https://coil-kt.github.io/coil/), this app seamlessly loads and displays high-quality images, providing you with an engaging visual experience. Built on the rock-solid foundation of [Ktor](https://ktor.io/), MovieCompose fetches movie data from [The Movie Database (TMDb)](https://www.themoviedb.org/) using a secure API key, ensuring a reliable and secure data source.
 ## Screenshots
 
 <div style="display: flex;">
@@ -33,6 +32,18 @@ MovieCompose is a sample Android app built with Jetpack Compose that allows you 
 <div style="display: flex;">
   <div style="flex: 50%; padding: 8px;">
     <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231011_030750.png" width="50%" height="50%" alt="Screenshot 5">
+  </div>
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231011_193420.png" width="50%" height="50%" alt="Screenshot 5">
+  </div>
+</div>
+
+<div style="display: flex;">
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231011_225052.png" width="50%" height="50%" alt="Screenshot 5">
+  </div>
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/Screenshot_20231011_225116.png" width="50%" height="50%" alt="Screenshot 5">
   </div>
 </div>
 
