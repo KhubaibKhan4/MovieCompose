@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,6 +50,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -326,7 +328,7 @@ fun MovieDetailsItem(
                 MovieRating(rating = voteAverage.toString())
 
                 // Play button and action buttons
-                MovieActionButtons()
+                postImage?.let { MovieActionButtons(uriUrl = it) }
 
             }
 
@@ -423,7 +425,9 @@ fun MovieRating(rating: String) {
 }
 
 @Composable
-fun MovieActionButtons() {
+fun MovieActionButtons(uriUrl: String) {
+    val uri = "https://image.tmdb.org/t/p/w500$uriUrl"
+    val uriHandler = LocalUriHandler.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -432,13 +436,15 @@ fun MovieActionButtons() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Play button
-        PlayButton()
+        PlayButton(postImage =uriUrl)
 
         Spacer(modifier = Modifier.width(8.dp))
         // Download button
         MovieIconButton(
             icon = painterResource(id = R.drawable.download),
-            onClick = { /*TODO*/ },
+            onClick = {
+                uriHandler.openUri(uri)
+            },
             backgroundColor = Color(0xFF252836),
             iconTint = Color(0XFFFF8700)
         )
@@ -446,7 +452,9 @@ fun MovieActionButtons() {
         // Open in new button
         MovieIconButton(
             icon = painterResource(id = R.drawable.open_in_new),
-            onClick = { /*TODO*/ },
+            onClick = {
+                uriHandler.openUri(uri)
+            },
             backgroundColor = Color(0xFF252836),
             iconTint = Color(0XFF12CDD9)
         )
@@ -454,11 +462,16 @@ fun MovieActionButtons() {
 }
 
 @Composable
-fun PlayButton() {
+fun PlayButton(postImage: String?) {
+    val uri = "https://image.tmdb.org/t/p/w500$postImage"
+    val uriHandler = LocalUriHandler.current
     Box(
         modifier = Modifier
             .width(115.dp)
             .height(48.dp)
+            .clickable {
+                uriHandler.openUri(uri)
+            }
             .background(
                 color = Color(0xFFFF8700),
                 shape = RoundedCornerShape(size = 32.dp)
