@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -31,6 +33,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.codespacepro.moviecompose.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -139,6 +144,8 @@ fun ActorDetailItem(
     vote_count: String?,
 ) {
     val context = LocalContext.current
+    val uri = "https://image.tmdb.org/t/p/w500$profile_path"
+    val uriHandler = LocalUriHandler.current
 
     Column(
         modifier = Modifier
@@ -257,7 +264,7 @@ fun ActorDetailItem(
             style = TextStyle(
                 color = Color.White,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = MaterialTheme.typography. bodyMedium.fontSize,
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
             )
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -270,6 +277,23 @@ fun ActorDetailItem(
                 fontSize = MaterialTheme.typography.bodySmall.fontSize,
             )
         )
+
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        IconButton(
+            onClick = {
+                uriHandler.openUri(uri)
+            },
+            modifier = Modifier
+                .size(30.dp)
+                .clip(shape = CircleShape)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.open_in_new), contentDescription = "",
+                tint = Color.White
+            )
+        }
         Spacer(modifier = Modifier.padding(bottom = 72.dp))
 
     }
