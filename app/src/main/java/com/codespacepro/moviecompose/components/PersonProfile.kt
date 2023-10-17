@@ -2,6 +2,11 @@ package com.codespacepro.moviecompose.components
 
 import android.content.Context
 import android.net.Uri
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +37,7 @@ import coil.request.ImageRequest
 import com.codespacepro.moviecompose.model.person.ResultX
 import com.codespacepro.moviecompose.navigation.navgraph.Screen
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PersonProfileList(
     person: List<ResultX>,
@@ -63,15 +69,31 @@ fun PersonProfileList(
     }
     LazyRow {
         items(person) { person ->
-            PersonProfileItem(result = person, context = context, navController = navController)
+            PersonProfileItem(
+                result = person,
+                context = context,
+                navController = navController,
+                modifier = Modifier.animateItemPlacement(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioHighBouncy,
+                        stiffness = Spring.DampingRatioMediumBouncy,
+                        visibilityThreshold = null
+                    )
+                )
+            )
         }
     }
 }
 
 @Composable
-fun PersonProfileItem(result: ResultX, context: Context, navController: NavHostController) {
+fun PersonProfileItem(
+    result: ResultX,
+    context: Context,
+    navController: NavHostController,
+    modifier: Modifier
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable {
                 navController.navigate(
@@ -90,6 +112,7 @@ fun PersonProfileItem(result: ResultX, context: Context, navController: NavHostC
 
                 )
             },
+
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
