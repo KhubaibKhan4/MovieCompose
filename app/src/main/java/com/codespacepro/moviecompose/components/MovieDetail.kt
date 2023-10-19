@@ -277,7 +277,7 @@ fun MovieDetailsItem(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "${pubDate ?: Date()}",
+                    text = "${pubDate?.let { convertDate(it) }}",
                     fontSize = 12.sp,
                     fontWeight = FontWeight(500),
                     color = Color(0xFF92929D),

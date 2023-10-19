@@ -43,6 +43,9 @@ import com.codespacepro.moviecompose.model.Result
 import com.codespacepro.moviecompose.navigation.navgraph.Screen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -148,7 +151,8 @@ fun TopSliderItem(
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 4.dp)
+                .padding(bottom = 4.dp, start = 4.dp, end = 4.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "${result.title}",
@@ -159,8 +163,9 @@ fun TopSliderItem(
                 color = Color(0xFFFFFFFF),
                 letterSpacing = 0.12.sp,
             )
+            val date: String = convertDate(result.release_date)
             Text(
-                text = "${result.release_date}",
+                text = "${result.release_date.let { convertDate(it) }}",
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 fontSize = 12.sp,
@@ -168,4 +173,14 @@ fun TopSliderItem(
             )
         }
     }
+}
+
+fun convertDate(date: String): String {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("MMM d", Locale.getDefault())
+    val dateObject: Date? = inputFormat.parse(date)
+    val dayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+    val dayName = dayFormat.format(dateObject)
+    val monthName = outputFormat.format(dateObject)
+    return "$dayName | $monthName"
 }
