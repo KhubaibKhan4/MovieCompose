@@ -46,8 +46,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.NavHostController
-import coil.ImageLoader
-import coil.request.CachePolicy
 import com.codespacepro.moviecompose.components.PersonProfileList
 import com.codespacepro.moviecompose.components.PopularMoviesList
 import com.codespacepro.moviecompose.components.SearchMovieList
