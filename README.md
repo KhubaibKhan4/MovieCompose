@@ -47,6 +47,32 @@ MovieCompose is a captivating Android application created with Jetpack Compose, 
   </div>
 </div>
 
+## Desktop Application
+Desktop Application is Included. Checkout the link: h**ttps://github.com/KhubaibKhan4/MovieDesktop**
+
+<div style="display: flex;">
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/1.png" width="50%" height="50%" alt="Screenshot 1">
+  </div>
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/2.png" width="50%" height="50%" alt="Screenshot 2">
+  </div>
+</div>
+
+<div style="display: flex;">
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/3.png" width="50%" height="50%" alt="Screenshot 3">
+  </div>
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/4.png" width="50%" height="50%" alt="Screenshot 4">
+  </div>
+</div>
+
+<div style="display: flex;">
+  <div style="flex: 50%; padding: 8px;">
+    <img src="https://github.com/KhubaibKhan4/MovieCompose/blob/master/screenshots/5.png" width="50%" height="50%" alt="Screenshot 5">
+  </div>
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
