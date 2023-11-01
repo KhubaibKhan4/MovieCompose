@@ -28,6 +28,7 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,14 +53,17 @@ import com.codespacepro.moviecompose.components.SearchMovieList
 import com.codespacepro.moviecompose.components.TopAppBar
 import com.codespacepro.moviecompose.components.TopSlider
 import com.codespacepro.moviecompose.components.TrendingWeeklyList
+import com.codespacepro.moviecompose.di.ktor.client.MovieApiClient
 import com.codespacepro.moviecompose.model.Movies
 import com.codespacepro.moviecompose.model.person.Person
 import com.codespacepro.moviecompose.repository.Repository
 import com.codespacepro.moviecompose.ui.theme.MovieComposeTheme
 import com.codespacepro.moviecompose.viewmodel.MainViewModel
+import io.ktor.client.plugins.ClientRequestException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Locale
+import kotlin.math.log
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,6 +77,9 @@ fun HomeScreen(navController: NavHostController) {
         mutableStateOf<Movies?>(null)
     }
     var trendingWeekly by remember {
+        mutableStateOf<Movies?>(null)
+    }
+    var popularMovies by remember {
         mutableStateOf<Movies?>(null)
     }
 
@@ -93,6 +100,18 @@ fun HomeScreen(navController: NavHostController) {
     var isLoading by remember {
         mutableStateOf(true)
     }
+//    LaunchedEffect(key1 = isActive) {
+//        scope.launch {
+//            try {
+//                val popularData = MovieApiClient.getPopular(1)
+//                popularMovies = popularData
+//                Log.d("HomeScreen", "Ktor PopularData $popularData ")
+//
+//            } catch (e: ClientRequestException) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 
     try {
         mainViewModel.getPopular("en-US", 1)

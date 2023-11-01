@@ -90,8 +90,16 @@ dependencies {
     //Navigation
     implementation("androidx.navigation:navigation-compose:2.7.4")
 
-    implementation ("androidx.compose.runtime:runtime-livedata:1.5.3")
-    implementation ("androidx.compose.runtime:runtime-saveable-android:1.5.3")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation ("androidx.compose.runtime:runtime-saveable-android:1.5.4")
+
+    //Ktor Client
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.5")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.5")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("io.ktor:ktor-server-default-headers:2.3.5")
+    implementation("io.ktor:ktor-client-android:2.3.5")
+    implementation("io.ktor:ktor-client-serialization:2.3.5")
 
 
 }
